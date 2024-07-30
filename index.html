@@ -1,0 +1,88 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter Generator</title>
+    <style>
+        /* styles.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+#letter-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+    </style>
+
+</head>
+<body>
+    <h1>Letter Generator</h1>
+    <form id="letter-form">
+        <label for="name">Enter Name:</label>
+        <input type="text" id="name" name="name">
+        <button id="generate-btn">Generate Letter</button>
+        <button id="send-btn">Send Letter</button>
+    </form>
+    <div id="letter-container">
+        <!-- Letter content will be generated here -->
+    </div>
+
+    <script >
+        // script.js
+const form = document.getElementById('letter-form');
+const nameInput = document.getElementById('name');
+const generateBtn = document.getElementById('generate-btn');
+const sendBtn = document.getElementById('send-btn');
+const letterContainer = document.getElementById('letter-container');
+
+generateBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    if (name !== '') {
+        generateLetter(name);
+    }
+});
+
+sendBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    if (name !== '') {
+        sendLetter(name);
+    }
+});
+
+function generateLetter(name) {
+    const letterHtml = `
+        <p>Dear ${name},</p>
+        <p>This is a sample letter.</p>
+        <p>Sincerely,</p>
+        <p>[Your Name]</p>
+    `;
+    letterContainer.innerHTML = letterHtml;
+}
+
+function sendLetter(name) {
+    const link = `https://example.com/letter?name=${name}`;
+    // You can use a library like share-api-polyfill to share the link
+    // For simplicity, we'll just log the link to the console
+    console.log(link);
+    // You can also use the navigator.share() method to share the link
+    // navigator.share({ title: 'Letter', text: 'Check out this letter!', url: link });
+}
+
+// Get the name parameter from the URL
+const urlParams = new URLSearchParams(window.location.search);
+const nameParam = urlParams.get('name');
+if (nameParam) {
+    nameInput.value = nameParam;
+    generateLetter(nameParam);
+}
+    </script>
+</body>
+</html>
